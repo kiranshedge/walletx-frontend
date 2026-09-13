@@ -1,0 +1,7 @@
+@utility focus-ring {
+  @apply outline-none ring-4 ring-brand-100;
+}
+
+@utility financial-value {
+  @apply font-display font-bold tabular-nums tracking-tight;
+}

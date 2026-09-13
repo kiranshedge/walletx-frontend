@@ -1,0 +1,9 @@
+@theme {
+  --font-sans: 'DM Sans', sans-serif;
+  --font-display: 'Manrope', sans-serif;
+  --color-brand-50: #f4f1ff;
+  --color-brand-100: #e9e2ff;
+  --color-brand-600: #6424d8;
+  --color-brand-700: #5217bd;
+  --color-brand-800: #42139b;
+}

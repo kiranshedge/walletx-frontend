@@ -1,0 +1,22 @@
+/* WalletX Design Tokens */
+:root {
+  --wx-primary: #6D28D9;
+  --wx-primary-dark: #4C1D95;
+  --wx-primary-light: #A78BFA;
+  --wx-ultra-light: #EDE9FE;
+  --wx-text: #0F172A;
+  --wx-gray-1: #64748B;
+  --wx-gray-2: #CBD5E1;
+  --wx-gray-3: #F1F5F9;
+  --wx-white: #FFFFFF;
+  --wx-success: #16A34A;
+  --wx-success-bg: #DCFCE7;
+  --wx-danger: #DC2626;
+  --wx-danger-bg: #FEE2E2;
+  --wx-radius-sm: 8px;
+  --wx-radius-md: 12px;
+  --wx-radius-lg: 16px;
+  --wx-radius-xl: 24px;
+  --wx-shadow-card: 0 4px 20px rgba(15,23,42,.08);
+  --wx-shadow-elevated: 0 12px 40px rgba(15,23,42,.12);
+}

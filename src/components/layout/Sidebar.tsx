@@ -1,4 +1,5 @@
 import { NavigationLinks } from './NavigationLinks'
+import { LogoutButton } from './LogoutButton'
 
 export function Sidebar() {
   return (
@@ -7,6 +8,9 @@ export function Sidebar() {
         <nav aria-label="Main navigation">
           <NavigationLinks orientation="sidebar" />
         </nav>
+        <div className="mt-auto border-t border-slate-200/80 pt-4">
+          <LogoutButton orientation="sidebar" />
+        </div>
       </div>
     </aside>
   )

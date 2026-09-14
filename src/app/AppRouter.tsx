@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { RequireAuth } from './auth'
 import { AppShell } from '../components/layout'
 import { ActivityPage } from '../pages/ActivityPage'
 import { HomePage } from '../pages/HomePage'
@@ -12,9 +13,11 @@ export function AppRouter() {
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/app" element={<AppShell />}>
-          <Route index element={<HomePage />} />
-          <Route path="activity" element={<ActivityPage />} />
+        <Route element={<RequireAuth />}>
+          <Route path="/app" element={<AppShell />}>
+            <Route index element={<HomePage />} />
+            <Route path="activity" element={<ActivityPage />} />
+          </Route>
         </Route>
         <Route path="/activity" element={<Navigate to="/app/activity" replace />} />
         <Route path="*" element={<Navigate to="/" replace />} />

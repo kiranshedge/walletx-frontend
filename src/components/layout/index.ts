@@ -1,6 +1,7 @@
 export { AppShell } from './AppShell'
 export { MobileNavigation } from './MobileNavigation'
 export { NavigationLinks } from './NavigationLinks'
+export { LogoutButton } from './LogoutButton'
 export { PageHeader } from './PageHeader'
 export type { PageHeaderProps } from './PageHeader'
 export { Sidebar } from './Sidebar'

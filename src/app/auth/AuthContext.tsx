@@ -31,7 +31,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function login(identifier: string, password: string): Promise<AuthUser> {
     await waitForSimulation()
     void password
-    if (identifier.trim().toLowerCase() === 'error@example.com') throw new Error('Unable to sign in')
+    if (identifier.trim().toLowerCase() === 'error@example.com') {
+      clearStoredUser()
+      setUser(null)
+      setStatus('unauthenticated')
+      throw new Error('Unable to sign in')
+    }
     const nextUser = createUser(identifier)
     setStoredUser(nextUser)
     setUser(nextUser)
@@ -42,7 +47,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function register(name: string, email: string, password: string): Promise<AuthUser> {
     await waitForSimulation()
     void password
-    if (email.trim().toLowerCase() === 'error@example.com') throw new Error('Unable to create account')
+    if (email.trim().toLowerCase() === 'error@example.com') {
+      clearStoredUser()
+      setUser(null)
+      setStatus('unauthenticated')
+      throw new Error('Unable to create account')
+    }
     const nextUser = createUser(email, name)
     setStoredUser(nextUser)
     setUser(nextUser)

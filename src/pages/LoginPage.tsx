@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../app/auth'
 import { Button, Input, PasswordInput } from '../components/ui'
@@ -25,8 +25,13 @@ export function LoginPage() {
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState<LoginErrors>({})
   const [isLoading, setIsLoading] = useState(false)
+  const formErrorRef = useRef<HTMLDivElement>(null)
   const { login } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (errors.form) formErrorRef.current?.focus()
+  }, [errors.form])
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -67,7 +72,7 @@ export function LoginPage() {
               <h2 className="font-display text-xl font-bold tracking-tight text-slate-950">Welcome back</h2>
               <p className="mt-1.5 text-sm text-slate-500">Sign in to your WalletX account</p>
             </div>
-            {errors.form && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700" role="alert">{errors.form}</div>}
+            {errors.form && <div ref={formErrorRef} tabIndex={-1} className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700 outline-none focus-visible:ring-4 focus-visible:ring-red-100" role="alert">{errors.form}</div>}
             <div className="grid gap-4">
               <Input id="login-identifier" label="Email or phone" type="text" autoComplete="username" value={identifier} onChange={(event) => setIdentifier(event.target.value)} error={errors.identifier} disabled={isLoading} className="h-10 rounded-lg" />
               <PasswordInput id="login-password" label="Password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} error={errors.password} disabled={isLoading} className="h-10 rounded-lg" />

@@ -17,7 +17,7 @@ function NavigationGlyph({ name }: { name: NavigationIcon }) {
 
 export function NavigationLinks({ orientation }: NavigationLinksProps) {
   return (
-    <ul className={cn('flex gap-1', orientation === 'sidebar' ? 'flex-col' : 'grid grid-cols-2')}>
+    <ul className={cn('flex gap-1', orientation === 'sidebar' ? 'flex-col' : 'grid flex-1 grid-cols-2')}>
       {navigationItems.map((item) => (
         <li key={item.path}>
           <NavLink

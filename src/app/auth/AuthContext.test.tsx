@@ -11,6 +11,7 @@ function AuthProbe() {
     <span data-testid="initializing">{String(isInitializing)}</span>
     <span data-testid="user">{user?.email ?? 'none'}</span>
     <button type="button" onClick={() => void login('user@example.com', 'password')}>Login</button>
+    <button type="button" onClick={() => void login('error@example.com', 'password').catch(() => undefined)}>Fail login</button>
     <button type="button" onClick={() => void register('Kiran', 'register@example.com', 'password')}>Register</button>
     <button type="button" onClick={logout}>Logout</button>
   </div>
@@ -65,5 +66,26 @@ describe('AuthProvider', () => {
     expect(screen.getByTestId('status')).toHaveTextContent('authenticated')
     expect(screen.getByTestId('user')).toHaveTextContent('register@example.com')
     expect(window.localStorage.getItem('walletx.auth.user')).toContain('Kiran')
+  })
+
+  it('clears an existing session when simulated authentication fails', async () => {
+    setStoredUser({ id: 'existing@example.com', name: 'Kiran', email: 'existing@example.com' })
+    vi.useFakeTimers()
+    render(<AuthProvider><AuthProbe /></AuthProvider>)
+    await act(async () => {
+      vi.advanceTimersByTime(0)
+    })
+    await act(async () => {
+      screen.getByRole('button', { name: 'Fail login' }).click()
+      vi.advanceTimersByTime(500)
+    })
+    expect(screen.getByTestId('status')).toHaveTextContent('unauthenticated')
+    expect(window.localStorage.getItem('walletx.auth.user')).toBeNull()
+
+    await act(async () => {
+      screen.getByRole('button', { name: 'Login' }).click()
+      vi.advanceTimersByTime(500)
+    })
+    expect(screen.getByTestId('status')).toHaveTextContent('authenticated')
   })
 })

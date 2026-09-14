@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../app/auth'
 import { Button, Input, PasswordInput } from '../components/ui'
@@ -39,7 +39,12 @@ export function RegisterPage() {
   const [errors, setErrors] = useState<RegisterErrors>({})
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const formErrorRef = useRef<HTMLDivElement>(null)
   const { register } = useAuth()
+
+  useEffect(() => {
+    if (errors.form) formErrorRef.current?.focus()
+  }, [errors.form])
 
   function updateValue(field: keyof RegisterValues, value: string) {
     setValues((current) => ({ ...current, [field]: value }))
@@ -84,7 +89,7 @@ export function RegisterPage() {
               <h2 className="font-display text-xl font-bold tracking-tight text-slate-950">Join WalletX</h2>
               <p className="mt-1.5 text-sm text-slate-500">Create your account in minutes</p>
             </div>
-            {errors.form && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700" role="alert">{errors.form}</div>}
+            {errors.form && <div ref={formErrorRef} tabIndex={-1} className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700 outline-none focus-visible:ring-4 focus-visible:ring-red-100" role="alert">{errors.form}</div>}
             {isSuccess && <div className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700" role="status">Account created successfully. You can now sign in.</div>}
             <div className="grid gap-4">
               <Input id="register-name" label="Full name" autoComplete="name" value={values.name} onChange={(event) => updateValue('name', event.target.value)} error={errors.name} disabled={isLoading || isSuccess} className="h-10 rounded-lg" />

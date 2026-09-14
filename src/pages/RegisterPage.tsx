@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../app/auth'
 import { Button, Input, PasswordInput } from '../components/ui'
 import walletxLogo from '../assets/logos/walletx-logo-horizontal.svg'
 
@@ -38,11 +39,7 @@ export function RegisterPage() {
   const [errors, setErrors] = useState<RegisterErrors>({})
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const timeoutRef = useRef<number | undefined>(undefined)
-
-  useEffect(() => () => {
-    if (timeoutRef.current !== undefined) window.clearTimeout(timeoutRef.current)
-  }, [])
+  const { register } = useAuth()
 
   function updateValue(field: keyof RegisterValues, value: string) {
     setValues((current) => ({ ...current, [field]: value }))
@@ -50,21 +47,21 @@ export function RegisterPage() {
     setIsSuccess(false)
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const nextErrors = validateRegister(values)
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) return
 
     setIsLoading(true)
-    timeoutRef.current = window.setTimeout(() => {
-      setIsLoading(false)
-      if (values.identifier.trim().toLowerCase() === 'error@example.com') {
-        setErrors({ form: 'We couldn\'t create your account. Check your details and try again.' })
-        return
-      }
+    try {
+      await register(values.name, values.identifier, values.password)
       setIsSuccess(true)
-    }, 500)
+    } catch {
+      setErrors({ form: 'We couldn\'t create your account. Check your details and try again.' })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

@@ -1,10 +1,11 @@
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { AuthProvider } from '../app/auth'
 import { LoginPage } from './LoginPage'
 
 function renderLogin() {
-  return render(<MemoryRouter><LoginPage /></MemoryRouter>)
+  return render(<AuthProvider><MemoryRouter><LoginPage /></MemoryRouter></AuthProvider>)
 }
 
 describe('LoginPage', () => {
@@ -32,7 +33,7 @@ describe('LoginPage', () => {
   it('shows a loading state and mocked authentication error for valid credentials', async () => {
     vi.useFakeTimers()
     renderLogin()
-    fireEvent.change(screen.getByLabelText('Email or phone'), { target: { value: 'user@example.com' } })
+    fireEvent.change(screen.getByLabelText('Email or phone'), { target: { value: 'error@example.com' } })
     fireEvent.change(screen.getByLabelText('Password'), { target: { value: 'password' } })
     fireEvent.click(screen.getByRole('button', { name: 'Log in' }))
 

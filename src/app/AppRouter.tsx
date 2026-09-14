@@ -3,6 +3,7 @@ import { AppShell } from '../components/layout'
 import { ActivityPage } from '../pages/ActivityPage'
 import { HomePage } from '../pages/HomePage'
 import { LoginPage } from '../pages/LoginPage'
+import { RegisterPage } from '../pages/RegisterPage'
 
 export function AppRouter() {
   return (
@@ -10,6 +11,7 @@ export function AppRouter() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/app" element={<AppShell />}>
           <Route index element={<HomePage />} />
           <Route path="activity" element={<ActivityPage />} />

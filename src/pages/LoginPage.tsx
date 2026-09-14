@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, type FormEvent } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../app/auth'
 import { Button, Input, PasswordInput } from '../components/ui'
 import walletxLogo from '../assets/logos/walletx-logo-horizontal.svg'
 
@@ -24,23 +25,24 @@ export function LoginPage() {
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState<LoginErrors>({})
   const [isLoading, setIsLoading] = useState(false)
-  const timeoutRef = useRef<number | undefined>(undefined)
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
-  useEffect(() => () => {
-    if (timeoutRef.current !== undefined) window.clearTimeout(timeoutRef.current)
-  }, [])
-
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const nextErrors = validateLogin(identifier, password)
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) return
 
     setIsLoading(true)
-    timeoutRef.current = window.setTimeout(() => {
-      setIsLoading(false)
+    try {
+      await login(identifier, password)
+      navigate('/app')
+    } catch {
       setErrors({ form: 'We couldn\'t sign you in. Check your details and try again.' })
-    }, 500)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

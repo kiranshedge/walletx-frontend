@@ -22,7 +22,7 @@ export function NavigationLinks({ orientation }: NavigationLinksProps) {
         <li key={item.path}>
           <NavLink
             to={item.path}
-            end={item.path === '/'}
+            end={item.path === '/app'}
             className={({ isActive }) => cn(
               'flex min-h-10 items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-100',
               orientation === 'mobile' && 'min-h-10 justify-center flex-col gap-0.5 px-2 py-1.5 text-[11px]',

@@ -5,7 +5,7 @@ import { AppShell } from './AppShell'
 
 describe('AppShell', () => {
   it('renders the shell landmarks and outlet content', () => {
-    render(<MemoryRouter initialEntries={['/activity']}><Routes><Route element={<AppShell />}><Route path="/activity" element={<h1>Activity content</h1>} /></Route></Routes></MemoryRouter>)
+    render(<MemoryRouter initialEntries={['/app/activity']}><Routes><Route element={<AppShell />}><Route path="/app/activity" element={<h1>Activity content</h1>} /></Route></Routes></MemoryRouter>)
     expect(screen.getByRole('banner', { name: 'WalletX header' })).toBeInTheDocument()
     expect(screen.getByRole('main')).toContainElement(screen.getByRole('heading', { name: 'Activity content' }))
     expect(screen.getAllByRole('navigation')).toHaveLength(2)
